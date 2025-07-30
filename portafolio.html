@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio Fotográfico</title>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<style>
+
+/* BARRA DESPLAZAMIENTO */
+        ::-webkit-scrollbar {
+        width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+        background-color: #e4e4e4;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        background: #e4e4e4;
+        border: 1px solid #aaa;
+        }
+        
+:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #ffffff;
+  --accent-color: #CDCDCD;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto';
+  color: var(--primary-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* NAVEGACION BOTONES */
+.nav-buttons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-family:  'Roboto';font-size: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 5px 10px;
+}
+
+.nav-btn:hover {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+.nav-btn.active {
+  opacity: 1;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+
+.main-content {
+  width: 100%;
+  padding-top: 60px;
+}
+
+/* GALERIA */
+#home {
+  background-color: #ffffff;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.gallery-header h1 {
+  font-family:  'Helvetica Neue', sans-serif;
+  font-size: 2.5rem;
+    font-weight: 600;
+  color: var(--primary-color);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* CONTACTO AJUSTES */
+#Contact {
+  background-color: #ffffff;
+  padding: 4rem 2rem;
+  min-height: 100vh;
+  display: none;
+  text-align: center;
+  font-family:  'Roboto';
+}
+
+.contact-content {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.contact-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.contact-info {
+  font-size: 1.2rem;
+  line-height: 2;
+}
+
+/* PIE */
+.footer-text {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-text p {
+  font-size: 0.9rem;
+  color: #000000;
+  margin: 0;
+}
+
+/* AJUSTES */
+@media (max-width: 768px) {
+  .gallery-header h1 {
+    font-size: 2rem;
+  }
+  
+  .nav-buttons {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .contact-title {
+    font-size: 1.8rem;
+  }
+  
+  .contact-info {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-buttons {
+    position: static;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .main-content {
+    padding-top: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-buttons">
+  <button class="nav-btn active" data-target="home">Portafolio</button>
+  <button class="nav-btn" data-target="Contact">Contacto</button>
+</div>
+
+<div class="main-content">
+
+  <!-- INICIO -->
+  <section id="home">
+    <div class="gallery-header">
+      <h1>Portafolio</h1>
+    </div>
+    
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,1" alt="1">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,2" alt="2">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,3" alt="3">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,4" alt="4">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,5" alt="5">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,6" alt="6">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,7" alt="7">
+      </div>
+      <div class="gallery-item">
+        <img src="https://source.unsplash.com/random/600x400?photography,8" alt="8">
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO TEXTO -->
+  <section id="Contact">
+    <div class="contact-content">
+      <h2 class="contact-title">Contáctame</h2>
+      <div class="contact-info">
+        <p>Email: <a href="mailto:
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-text">
+    <p>© 2025 Portafolio Fotográfico. Todos los derechos reservados.</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('section');
+  
+  // Show home section by default
+  document.getElementById('home').style.display = 'block';
+  
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      
+      // Update active button
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Show/hide sections
+      sections.forEach(section => {
+        section.style.display = 'none';
+      });
+      document.getElementById(targetId).style.display = 'block';
+      
+      // Scroll to top when switching sections
+      window.scrollTo(0, 0);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

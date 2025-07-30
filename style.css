@@ -1,0 +1,447 @@
+body {
+    background-image: url('https://i.pinimg.com/736x/41/6f/d3/416fd3f495552e4e1a57c98b980fabcd.jpg');
+    font-family: Ms Ui Gothic;
+    color: #5e5e5e;
+    font-size: 1em;
+    line-height: 19px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+}
+
+/* Asegúrate de que el contenedor principal sea un flexbox */
+#TEMPLATE-LAYOUT {
+    width: 740px;
+    height: auto;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* Evita el desbordamiento horizontal */
+}
+.header-image {
+    width: 100%;
+    margin-bottom: 5px;
+    /* Si quieres que tenga el mismo ancho que marquee-box, asegúrate que ambas usan el mismo contenedor o ancho */
+}
+.header-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 75px; /* Ajusta este valor según lo que desees */
+    object-fit: cover; /* Opcional: recorta la imagen si es muy alta */
+}
+/* Contenedor de las cajas */
+.box-container {
+    display: flex; /* Usamos flexbox para alinear los elementos */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    width: 100%;
+    margin-top: 5px;
+    padding: 0; /* Elimina el padding del contenedor */
+}
+
+/* Estilos para box-left y box-right */
+.box-left, .box-right {
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho */
+    width: 50%; /* Cada uno ocupa exactamente la mitad */
+    padding: 0; /* Elimina el padding del contenedor */
+    border: 2px ridge #fef5da; /* Borde */
+    background: white;
+    min-height: 185px;
+    margin: 0; /* Elimina cualquier margen */
+}
+
+/* Estilos para el botón (barra superior) */
+.box-left .button, .box-right .button {
+    width: calc(100% + 4px); /* Ocupa todo el ancho, incluyendo el borde */
+    background: #e1b88c !important; /* Color de fondo café/marrón */
+    box-shadow: 0 -3px 3px 3px rgba(255, 255, 255, .5) inset;
+    border: none; /* Elimina el borde */
+    color: #fff !important;
+    text-shadow: 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000);
+    height: auto;
+    font-size: 20px;
+    padding: 10px 0; /* Ajusta el padding vertical */
+    text-align: center;
+    border-bottom: 3px ridge #fef5da; /* Borde inferior */
+    font-weight: 600;
+    margin: -2px -2px 0 -2px; /* Compensa el borde del contenedor */
+}
+
+/* Estilos para el contenedor interno */
+.box-left .container, .box-right .container {
+    width: 100%;
+    height: 100%;
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da; 
+    background: white;
+    padding: 10px; /* Ajusta el padding interno */
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin: 0; /* Elimina cualquier margen */
+}
+.box-left p, .box-right p {
+    margin: 0; /* Elimina márgenes en los párrafos */
+    padding: 0; /* Elimina paddings en los párrafos */
+}
+/* Elimina el espacio mínimo entre los bordes */
+.box-left {
+    margin-right: -2px; /* Compensa el ancho del borde */
+}
+
+.box-right {
+    margin-left: -2px; /* Compensa el ancho del borde */
+}
+
+/* CORRECCIÓN DEFINITIVA PARA EL SCROLL NO DESEADO */
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    overflow: visible !important; /* Fuerza visibilidad */
+}
+
+.box-right {
+    flex: 1 1 300px; /* Flexibilidad del contenedor */
+    min-height: auto !important;
+    overflow: hidden !important; /* Elimina scroll interno */
+    height: auto !important;
+}
+
+.game-container {
+    max-height: none !important; /* Elimina límite artificial */
+    height: auto !important;
+    padding-bottom: 5px; /* Espacio mínimo inferior */
+}
+
+/* Estilos para box-right */
+.box-right {
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho */
+    width: 50%; /* Cada uno ocupa exactamente la mitad */
+    padding: 7px; /* Ajusta el padding si es necesario */
+    border: 6px ridge #fef5da; /* Borde */
+    background: white; /* Fondo blanco por defecto */
+    min-height: 185px;
+    margin: 0; /* Elimina cualquier margen */
+    background-image: url('https://i.pinimg.com/originals/2d/73/fd/2d73fd1656f8c7981fbd166308eb92a3.gif'); /* Fondo box right */
+    background-repeat: repeat; /* Repite el fondo */
+    background-size: auto; /* Ajusta el tamaño del fondo */
+    background-position: center; /* Centra el fondo */
+}
+
+/* Limpia los floats para que el contenedor de comentarios no se superponga */
+#TEMPLATE-LAYOUT::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+header {
+    width: 70%;
+    height: 150px;
+    background: #e1b88c !important; /* Color de fondo café/marrón */
+    box-shadow: 0 -3px 3px 3px rgba(255, 255, 255, .5) inset;
+    border: 1px solid #d0a57a;
+    border-bottom: 0;
+    color: #fff !important;
+    text-shadow: 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000);
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da;
+    overflow: hidden;
+}
+
+.shadow {
+    text-shadow: rgb(255, 255, 255) 4px 0px 0px, rgb(255, 255, 255) 3.87565px 0.989616px 0px, rgb(255, 255, 255) 3.51033px 1.9177px 0px, rgb(255, 255, 255) 2.92676px 2.72656px 0px, rgb(255, 255, 255) 2.16121px 3.36588px 0px, rgb(255, 255, 255) 1.26129px 3.79594px 0px, rgb(255, 255, 255) 0.282949px 3.98998px 0px, rgb(255, 255, 255) -0.712984px 3.93594px 0px, rgb(255, 255, 255) -1.66459px 3.63719px 0px, rgb(255, 255, 255) -2.51269px 3.11229px 0px, rgb(255, 255, 255) -3.20457px 2.39389px 0px, rgb(255, 255, 255) -3.69721px 1.52664px 0px, rgb(255, 255, 255) -3.95997px 0.56448px 0px, rgb(255, 255, 255) -3.97652px -0.432781px 0px, rgb(255, 255, 255) -3.74583px -1.40313px 0px, rgb(255, 255, 255) -3.28224px -2.28625px 0px, rgb(255, 255, 255) -2.61457px -3.02721px 0px, rgb(255, 255, 255) -1.78435px -3.57996px 0px, rgb(255, 255, 255) -0.843183px -3.91012px 0px, rgb(255, 255, 255) 0.150409px -3.99717px 0px, rgb(255, 255, 255) 1.13465px -3.8357px 0px, rgb(255, 255, 255) 2.04834px -3.43574px 0px, rgb(255, 255, 255) 2.83468px -2.82216px 0px, rgb(255, 255, 255) 3.44477px -2.03312px 0px, rgb(255, 255, 255) 3.84068px -1.11766px 0px, rgb(255, 255, 255) 3.9978px -0.132717px 0px;
+}
+
+.BOARD {
+    width: 29.3%;
+    height: 154px;
+    background-image: url('https://i.pinimg.com/736x/9c/38/7f/9c387f884c3dabe429808f01a538f439.jpg'); /* fondo verde */
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da;
+    padding: 5px;
+    box-sizing: border-box;
+    border-right: 0px;
+}
+
+.BOARD p {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Estilos para el marquee-box */
+.marquee-box {
+    width: 100%;
+    height: auto; /* Ajusta el tamaño al contenido */
+    padding: 3px;
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da ;
+    margin-top: 5px;
+    background: white;
+}
+
+.button {
+    width: 100%;
+    background: #e1b88c !important; /* Color de fondo café/marrón */
+    box-shadow: 0 -3px 3px 3px rgba(255, 255, 255, .5) inset;
+    border: 1px solid #d0a57a;
+    border-bottom: 0;
+    color: #fff !important;
+    text-shadow: 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000);
+    height: auto;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+    border-bottom: 3px ridge #fef5da;
+    font-weight: 600;
+}
+
+ul {
+    list-style-type: none;
+    padding: 3.5px;
+    margin: 0px;
+}
+
+.content {
+    width: 48%;
+    height: 240px;
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da; 
+    margin-top: 5px;
+    background-image: url('https://i.pinimg.com/736x/7c/cf/f2/7ccff2e84420c4c0eccdb12d5f514a1c.jpg');
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.new-content {
+    width: 48%;
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da; 
+    background: white;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.container p {
+    margin: 0px;
+    padding: 0px;
+    margin-top: 5px;
+}
+
+.the-section {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Estilos para la nueva sección de la tabla */
+.table-section {
+    width: 100%;
+    display: inline-block;
+    background: #fff;
+    border: 2px ridge #fef5da; /* Borde que combina con el diseño */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    max-height: 400px; /* Altura máxima */
+    overflow: hidden;
+}
+
+/* Estilo del heading */
+.table-section .heading {
+    background: #e1b88c !important; /* Color de fondo café/marrón */
+    box-shadow: 0 -3px 3px 3px rgba(255, 255, 255, .5) inset;
+    border: 1px solid #d0a57a;
+    border-bottom: 0;
+    color: #fff !important; /* Texto en blanco */
+    text-shadow: 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 0 0 1px color-mix(in srgb, var(--accent) 70%, #000),
+                 1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 -1px 1px 0 color-mix(in srgb, var(--accent) 70%, #000),
+                 1px -1px 0 color-mix(in srgb, var(--accent) 70%, #000);
+    border-bottom: 2px ridge #fef5da; /* Borde inferior */
+    padding: 5px 10px; /* Padding reducido para hacerlo delgado */
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    height: 25px; /* Altura fija para que sea delgado */
+    display: flex;
+    align-items: center;
+}
+
+.table-section .heading h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #fff !important; /* Texto en blanco */
+}
+
+/* Estilo del contenido interno de la tabla */
+.table-section .inner {
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd; /* Borde sutil */
+    max-height: 350px; /* Altura máxima para el contenido */
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+}
+
+/* Estilo de la cuadrícula */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-template-rows: repeat(3, 1fr); /* 3 filas */
+    gap: 10px; /* Espacio entre bloques */
+}
+
+/* Estilo de cada bloque */
+.grid-container .grid-item {
+    border: 1px solid transparent !important; /* Fuerza el borde transparente */
+    padding: 10px;
+    background: #f9f9f9; /* Fondo sutil */
+    display: flex;
+    flex-direction: column;
+    outline: none !important; /* Elimina cualquier outline */
+    box-shadow: none !important; /* Elimina cualquier sombra */
+}
+
+/* Estilo de cada bloque */
+.grid-item {
+    border: 1px solid transparent !important; /* Fuerza el borde transparente */
+    padding: 10px;
+    background: #f9f9f9; /* Fondo sutil */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo del título del tema */
+.grid-item .topic {
+    text-transform: uppercase;
+    color: #8a5e39 !important; /* Color del texto */
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: left;
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    text-decoration: underline; /* Subrayado como text-decoration */
+}
+
+/* Estilo del contenido dentro de cada bloque */
+.grid-item .content {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+    background: #f9f9f9; /* Fondo sólido que coincide con div.grid-item */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Estilo para imágenes y iframes dentro de .grid-item .content */
+.grid-item .content img,
+.grid-item .content iframe {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 4px; /* Bordes redondeados */
+    margin-top: 10px; /* Espacio superior */
+}
+
+/* Asegurar que los div.content fuera de table-section no se vean afectados */
+.content {
+    /* Estilos originales para los div.content fuera de table-section */
+    width: 100%;
+    height: 240px;
+    border-width: 2px;
+    border-style: ridge;
+    border-color: #fef5da;
+    margin-top: 5px;
+    background-image: url('https://i.pinimg.com/736x/7c/cf/f2/7ccff2e84420c4c0eccdb12d5f514a1c.jpg'); /* Fondo con patrón */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.new-content {
+    width: 48%;
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+/* Estilo para el enlace de edición */
+.table-section .edit-link {
+    text-align: right;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #5e5e5e; /* Color de texto que combina con el diseño */
+}
+
+.table-section .edit-link a {
+    color: #5e5e5e;
+    text-decoration: none;
+}
+
+.table-section .edit-link a:hover {
+    text-decoration: underline;
+}
+
+.small-gif {
+    width: 200px; /* Ajusta el ancho según sea necesario */
+    height: auto; /* Mantiene la proporción del GIF */
+}
+
+* {
+    cursor: url(https://cur.cursors-4u.net/nature/nat-2/nat184.cur), auto !important;
+}
+
+/* Estilos para el texto debajo del marquee-box */
+.footer-text {
+    text-align: center; /* Centra el texto horizontalmente */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin: 10px 0 0 0; /* Margen superior para separarlo del marquee-box */
+    padding: 10px 0; /* Espaciado vertical */
+    font-family: Ms Ui Gothic; /* Misma fuente que el resto de la página */
+    color: #5e5e5e; /* Color de texto que combina */
+    }
+
+    .grid-item iframe {
+        border: none !important; /* Elimina el borde */
+    }

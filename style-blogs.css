@@ -1,0 +1,424 @@
+/* Estilos generales */
+body {
+    background-image: url('https://i.pinimg.com/736x/41/6f/d3/416fd3f495552e4e1a57c98b980fabcd.jpg');
+    font-family: 'MS UI Gothic', Tahoma, sans-serif;
+    color: #5e5e5e;
+    font-size: 1em;
+    line-height: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+* {
+    cursor: url(https://cur.cursors-4u.net/games/gam-1/gam76.cur), auto !important;
+}
+
+        ::-webkit-scrollbar {
+        width: 16px
+        }
+
+        ::-webkit-scrollbar:horizontal {
+        height: 17px
+        }
+
+        ::-webkit-scrollbar-corner {
+        background: #eee
+        }
+
+        ::-webkit-scrollbar-track:vertical {
+        background: linear-gradient(90deg, #e5e5e5, #f0f0f0 20%)
+        }
+
+        ::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(180deg, #e5e5e5, #f0f0f0 20%)
+        }
+
+        ::-webkit-scrollbar-thumb {
+        border: 1.5px solid #888;
+        border-radius: 3px;
+        box-shadow: inset 0 -1px 1px #fff, inset 0 1px 1px #fff;
+        background-color: #eee;
+        }
+
+        ::-webkit-scrollbar-thumb:vertical {
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12VQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11sUXQBCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(90deg, #eee 45%, #ddd 0, #bbb)
+        }
+
+        ::-webkit-scrollbar-thumb:horizontal {
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazjk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ3LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(180deg, #eee 45%, #ddd 0, #bbb)
+        }
+
+        ::-webkit-scrollbar-button:horizontal:end:increment,
+        ::-webkit-scrollbar-button:horizontal:start:decrement,
+        ::-webkit-scrollbar-button:vertical:end:increment,
+        ::-webkit-scrollbar-button:vertical:start:decrement {
+        display: block
+        }
+
+        ::-webkit-scrollbar-button:vertical {
+        height: 17px
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:decrement {
+        background: white;
+        background-image: url("https://cdn.discordapp.com/attachments/904308736712138793/1001299199633141851/download.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:increment {
+        display: none;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:decrement {
+        display: none;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:increment {
+        background: white;
+        background-image: url("https://cdn.discordapp.com/attachments/904308736712138793/1001299200052576387/87ae92e1-3894-4469-b1b9-aedf5f04975c.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+.blog-container {
+    width: 740px;
+    max-width: 100%;
+    background: white;
+    border: 2px ridge #fef5da;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Barra de navegación */
+.xp-navbar {
+    background: #e1b88c;
+    padding: 5px;
+    border-bottom: 3px ridge #fef5da;
+    display: flex;
+    gap: 10px;
+}
+
+/* ===== ESTILOS GENERALES DE BOTONES (Windows Clásico) ===== */
+.xp-button {
+    background: linear-gradient(to bottom, #f0f0f0, #d4d4d4);
+    border: 1px solid #7a7a7a;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    color: #000000;
+    padding: 3px 12px;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    height: 22px;
+    min-width: 75px;
+    text-align: center;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
+
+/* --- Botones de la barra de navegación --- */
+.xp-navbar .xp-button {
+    margin-right: 4px; /* Separación entre botones */
+}
+
+/* --- Botones del editor (Guardar/Cancelar) --- */
+.xp-editor-buttons .xp-button {
+    margin-left: 8px;
+}
+
+/* === Botón de Cerrar (X) - Estilo Windows Clásico === */
+.xp-title-bar-controls button {
+    background: linear-gradient(to bottom, #f0f0f0, #d4d4d4);
+    border: 1px solid #7a7a7a;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    width: 22px;
+    height: 22px;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: auto;
+}
+
+/* ===== ESTADOS INTERACTIVOS ===== */
+/* Hover (sin cambio de color, solo cursor) */
+.xp-button:hover,
+.xp-title-bar-controls button:hover {
+    cursor: pointer;
+}
+
+/* Active (efecto presionado - hundimiento) */
+.xp-button:active,
+.xp-title-bar-controls button:active {
+    background: linear-gradient(to bottom, #d4d4d4, #f0f0f0);
+    border: 1px solid #7a7a7a;
+    border-top-color: #7a7a7a !important;
+    border-left-color: #7a7a7a !important;
+    padding: 4px 11px 2px 13px; /* Efecto de hundimiento */
+}
+
+/* Active para botón X (ajuste especial) */
+.xp-title-bar-controls button:active {
+    padding: 0;
+    margin: 1px 0 0 1px; /* Simula el hundimiento */
+}
+
+/* Estilos para el grupo de radio buttons */
+.xp-radio-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.xp-radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* Alineación de imágenes */
+.xp-image-container.left {
+    text-align: left;
+}
+
+.xp-image-container.center {
+    text-align: center;
+}
+
+.xp-image-container.right {
+    text-align: right;
+}
+
+.xp-image-container img {
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* Contenedor de posts */
+.xp-posts-container {
+    padding: 15px;
+    background: white;
+}
+
+/* Estilos para los posts */
+.xp-post {
+    border: 2px ridge #fef5da;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: white;
+}
+
+/* Borde limite */
+.xp-post {
+    border: 2px ridge #fef5da;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: white;
+    overflow: hidden; /* Esto previene que el contenido se desborde */
+    word-wrap: break-word; /* Rompe palabras largas */
+}
+
+.xp-post-content {
+    margin-bottom: 10px;
+    max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
+    overflow: auto; /* Añade scroll si es necesario */
+}
+
+.xp-post-content img,
+.xp-post-content video,
+.xp-post-content iframe {
+    max-width: 100%; /* Limita el ancho de elementos embebidos */
+    height: auto; /* Mantiene la proporción */
+}
+
+.xp-post-content pre,
+.xp-post-content code {
+    white-space: pre-wrap; /* Permite que el código se ajuste */
+    word-wrap: break-word;
+    overflow-x: auto; /* Añade scroll horizontal si es necesario */
+}
+
+.xp-post-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #fef5da;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.xp-post-title {
+    color: #8a5d39;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.xp-post-author {
+    font-style: italic;
+    color: #5e5e5e;
+}
+
+.xp-post-date {
+    color: #5e5e5e;
+    font-size: 12px;
+}
+
+.xp-post-content {
+    margin-bottom: 10px;
+}
+
+.xp-post-actions {
+    text-align: right;
+}
+
+/* Ventanas estilo XP */
+.xp-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 90%;
+    background: white;
+    border: 2px ridge #fef5da;
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.xp-title-bar {
+    background: #e1b88c;
+    padding: 5px 10px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px ridge #fef5da;
+}
+
+.xp-window-body {
+    padding: 15px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.xp-input, .xp-textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #d0a57a;
+    margin-bottom: 10px;
+    font-family: 'MS UI Gothic', Tahoma;
+}
+
+.xp-textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.xp-field-row {
+    margin-bottom: 15px;
+}
+
+.xp-field-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.xp-editor-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Estilos para pestañas */
+.xp-tab-container {
+    margin-bottom: 15px;
+}
+
+.xp-tabs {
+    display: flex;
+    border-bottom: 2px ridge #fef5da;
+    margin-bottom: 10px;
+}
+
+.xp-tab-button {
+    background: #e1b88c;
+    border: none;
+    padding: 5px 15px;
+    margin-right: 5px;
+    font-family: 'MS UI Gothic', Tahoma;
+    cursor: pointer;
+    border: 1px solid #d0a57a;
+    border-bottom: none;
+    position: relative;
+    top: 2px;
+}
+
+.xp-tab-button.active {
+    background: white;
+    color: #5e5e5e;
+    font-weight: bold;
+}
+
+.xp-tab-content {
+    display: none;
+}
+
+.xp-tab-content.active {
+    display: block;
+}
+
+/* Estilos para imágenes en los posts */
+.xp-post-image {
+    max-width: 100%;
+    border: 2px ridge #fef5da;
+    margin: 10px 0;
+    display: block;
+}
+
+.xp-post-image.gif {
+    border: 3px ridge #e1b88c;
+}
+
+.xp-image-container {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.image-credit {
+    font-size: 11px;
+    color: #8a5d39;
+    font-style: italic;
+    margin-top: 3px;
+}
+
+/* Estilo para código HTML */
+pre.code {
+    background: #f5f5f5;
+    border: 1px solid #d0a57a;
+    padding: 10px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}

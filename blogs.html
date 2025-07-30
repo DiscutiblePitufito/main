@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rincón de Discutiblepitufito ヽ(・∀・)/</title>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/29/f5/9c/29f59c17cd7116756f80837a114a5d72.jpg">
+    <link rel="stylesheet" href="style-blogs.css">
+    <style>
+        @font-face {
+            font-family: 'MS UI Gothic';
+            src: url('https://cdn.jsdelivr.net/npm/japanese-fonts@1.0.0/source-han-sans-japanese/fonts/SourceHanSansJP-Regular.otf') format('opentype');
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón de inicio flotante -->
+    <div style="
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 200;
+        width: 40px;
+        height: 40px;
+        transition: transform 0.3s ease;
+    " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="index.html" style="display: block; width: 100%; height: 100%;">
+            <img src="https://64.media.tumblr.com/f2b7319b7b8e1926f3f4846796648d99/92822f4829b322b5-3a/s640x960/572fc7435ff801240fb4167ae9aaba50e7e82765.pnj" 
+                alt="Inicio" 
+                style="
+                    width: 200%;
+                    height: 200%;
+                    object-fit: contain;
+                    border: 1px transparent;
+                    box-shadow: 2px 2px 4px transparent;
+                    filter: sepia(5%);
+                    transition: transform 0.3s ease;
+                " 
+                onmouseover="this.nextElementSibling.style.display='block'; this.style.transform='scale(1.1)'"
+                onmouseout="this.nextElementSibling.style.display='none'; this.style.transform='scale(1)'">
+            <span style="
+                display: none;
+                color: black;
+                text-shadow: 1px 1px 2px white;
+                font-family: 'MS UI Gothic', Tahoma, sans-serif;
+                font-size: 12px;
+                margin-top: 3px;
+            ">Inicio</span>
+        </a>
+    </div>
+
+    <div class="blog-container">
+        <!-- Barra de navegación -->
+        <div class="xp-navbar">
+            <button class="xp-button" id="new-post-btn" style="display: none;">Nuevo Post</button>
+            <button class="xp-button" id="login-btn">Login Admin</button>
+        </div>
+
+        <!-- Contenedor principal de posts -->
+        <div class="xp-posts-container" id="posts-container">
+            <!-- Posts se cargarán aquí -->
+        </div>
+
+        <!-- Ventana de login -->
+        <div class="xp-window" id="login-window" style="display: none;">
+            <div class="xp-title-bar">
+                <div class="xp-title-bar-text">Login Administrador</div>
+                <div class="xp-title-bar-controls">
+                    <button aria-label="Close" id="close-login">X</button>
+                </div>
+            </div>
+            <div class="xp-window-body">
+                <div class="xp-field-row">
+                    <label for="login-username">Usuario:</label>
+                    <input type="text" id="login-username" class="xp-input">
+                </div>
+                <div class="xp-field-row">
+                    <label for="login-password">Contraseña:</label>
+                    <input type="password" id="login-password" class="xp-input">
+                </div>
+                <div class="xp-editor-buttons">
+                    <button id="do-login" class="xp-button">Ingresar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ventana del editor -->
+        <div class="xp-window" id="editor-window" style="display: none;">
+            <div class="xp-title-bar">
+                <div class="xp-title-bar-text">Editor de Post</div>
+                <div class="xp-title-bar-controls">
+                    <button aria-label="Close" id="close-editor">X</button>
+                </div>
+            </div>
+            <div class="xp-window-body">
+                <div class="xp-tab-container">
+                    <div class="xp-tabs">
+                        <button class="xp-tab-button active" data-tab="visual">Editor Visual</button>
+                        <button class="xp-tab-button" data-tab="html">Editor HTML</button>
+                    </div>
+                    
+                    <div class="xp-tab-content active" id="visual-tab">
+                        <div class="xp-field-row">
+                            <label for="post-title">Título:</label>
+                            <input type="text" id="post-title" class="xp-input">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-author">Autor:</label>
+                            <input type="text" id="post-author" class="xp-input">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-image">URL de Imagen/GIF:</label>
+                            <input type="text" id="post-image" class="xp-input" placeholder="https://ejemplo.com/imagen.gif">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-content">Contenido:</label>
+                            <textarea id="post-content" class="xp-textarea" rows="10"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="xp-tab-content" id="html-tab">
+                        <div class="xp-field-row">
+                            <label for="post-title-html">Título:</label>
+                            <input type="text" id="post-title-html" class="xp-input">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-author-html">Autor:</label>
+                            <input type="text" id="post-author-html" class="xp-input">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-image-html">URL de Imagen/GIF:</label>
+                            <input type="text" id="post-image-html" class="xp-input" placeholder="https://ejemplo.com/imagen.gif">
+                        </div>
+                        <div class="xp-field-row">
+                            <label for="post-html">Código HTML:</label>
+                            <textarea id="post-html" class="xp-textarea" rows="10" placeholder="Escribe tu HTML aquí..."></textarea>
+                        </div>
+                        <div class="xp-field-row">
+                            <label>Alineación de imagen:</label>
+                            <div class="xp-radio-group">
+                                <label>
+                                    <input type="radio" name="image-alignment" value="left" checked> Izquierda
+                                </label>
+                                <label>
+                                    <input type="radio" name="image-alignment" value="center"> Centro
+                                </label>
+                                <label>
+                                    <input type="radio" name="image-alignment" value="right"> Derecha
+                                </label>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="xp-editor-buttons">
+                    <button id="save-post" class="xp-button">Guardar</button>
+                    <button id="cancel-post" class="xp-button">Cancelar</button>
+                    <button id="delete-post" class="xp-button" style="display: none;">Eliminar</button>
+                </div>
+                <input type="hidden" id="post-id">
+            </div>
+        </div>
+    </div>
+
+    <script src="script-blogs.js"></script>
+</body>
+</html>

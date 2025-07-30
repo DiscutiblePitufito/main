@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rincón de Discutiblepitufito ヽ(・∀・)/</title>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/29/f5/9c/29f59c17cd7116756f80837a114a5d72.jpg">
+    <link rel="stylesheet" href="style.css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300|Roboto' rel='stylesheet' type='text/css'>
+    <style>
+
+       /* ESTILOS DEL JUEGO */
+        .game-container {
+            text-align: center;
+            padding: 5px;
+            height: calc(100% - 40px); /* Ajuste para el botón */
+            overflow: hidden;  /* Oculta cualquier contenido que se desborde */
+            max-height: 180px; /* Altura máxima ajustable según tus necesidades */
+        }
+        
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .choice-btn {
+            background: #e1b88c;
+            border: 2px ridge #fef5da;
+            border-radius: 3px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-family: 'Josefin Sans', sans-serif;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            width: auto;
+            height: 30px;
+        }
+        
+        .choice-btn:hover {
+            background: #d0a57a;
+            transform: scale(1.05);
+        }
+        
+        /* ZONA PARA AJUSTAR EL TAMAÑO DE LAS IMÁGENES */
+        .choice-img {
+            width: 10px;  /* Cambiar ancho de la imagen aquí */
+            height: 20px; /* Cambiar alto de la imagen aquí */
+            object-fit: contain;
+            margin-right: 5px; /* Espacio entre imagen y texto */
+        }
+        /* FIN DE ZONA DE AJUSTE DE IMÁGENES */
+        
+        .choice-label {
+            font-size: 12px;
+            color: #5e5e5e;
+        }
+        
+        .result {
+            margin: 1px 0;
+            font-weight: bold;
+            color: #8a5d39;
+            font-size: 14px;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+            margin-top: 0px;
+        }
+
+        /* Barra de desplazamiento... */
+    
+        ::-webkit-scrollbar {
+        width: 16px
+        }
+
+        ::-webkit-scrollbar:horizontal {
+        height: 17px
+        }
+
+        ::-webkit-scrollbar-corner {
+        background: #eee
+        }
+
+        ::-webkit-scrollbar-track:vertical {
+        background: linear-gradient(90deg, #e5e5e5, #f0f0f0 20%)
+        }
+
+        ::-webkit-scrollbar-track:horizontal {
+        background: linear-gradient(180deg, #e5e5e5, #f0f0f0 20%)
+        }
+
+        ::-webkit-scrollbar-thumb {
+        border: 1.5px solid #888;
+        border-radius: 3px;
+        box-shadow: inset 0 -1px 1px #fff, inset 0 1px 1px #fff;
+        background-color: #eee;
+        }
+
+        ::-webkit-scrollbar-thumb:vertical {
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12VQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11sUXQBCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(90deg, #eee 45%, #ddd 0, #bbb)
+        }
+
+        ::-webkit-scrollbar-thumb:horizontal {
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazjk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ3LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(180deg, #eee 45%, #ddd 0, #bbb)
+        }
+
+        ::-webkit-scrollbar-button:horizontal:end:increment,
+        ::-webkit-scrollbar-button:horizontal:start:decrement,
+        ::-webkit-scrollbar-button:vertical:end:increment,
+        ::-webkit-scrollbar-button:vertical:start:decrement {
+        display: block
+        }
+
+        ::-webkit-scrollbar-button:vertical {
+        height: 17px
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:decrement {
+        background: white;
+        background-image: url("https://cdn.discordapp.com/attachments/904308736712138793/1001299199633141851/download.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:increment {
+        display: none;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:decrement {
+        display: none;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:increment {
+        background: white;
+        background-image: url("https://cdn.discordapp.com/attachments/904308736712138793/1001299200052576387/87ae92e1-3894-4469-b1b9-aedf5f04975c.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+       /* Chat... */
+    #cbox {
+        right: 40px;
+        bottom: -354px;
+        z-index: 99999;
+        position: fixed;
+        -webkit-transition: all 0.8s ease-in-out;
+        -moz-transition: all 0.8s ease-in-out;
+        -o-transition: all 0.8s ease-in-out;
+        -ms-transition: all 0.8s ease-in-out;
+        transition: all 0.8s ease-in-out;
+        border: 5px solid #fff;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        box-shadow: 0px 0px 0px 1px #e1b88c;
+        background: white;
+    }
+
+    #cbox:hover {
+        bottom: 0px;
+    }
+        
+    #cboxtitle {
+        width: 180px;
+        height: 15px;
+        background-color: #ffffff;
+        background-image: url('https://i.pinimg.com/736x/c9/46/bf/c946bfd356eeb1200eaf644a0503c006.jpg');
+        padding: 8px 5px 5px 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+        font-family: 'Josefin Sans', sans-serif;
+        font-weight: 300;
+        letter-spacing: 10px;
+        color: #886f38;
+        text-shadow: 1px 1px 1px #ffffff;
+        text-transform: uppercase;
+    }
+
+    #cboxdesc {
+        width: 180px;
+        height: 40px;
+        padding: 5px;
+        background-color: #ffffff;
+        overflow: auto;
+        font-family: 'Roboto', sans-serif;
+        font-size: 9px;
+        text-align: justify;
+        letter-spacing: 1px;
+        color: #a19090;
+    }
+
+    .footer-text {
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            padding: 10px 0;
+            font-family: Ms Ui Gothic;
+            color: #000000;
+        } 
+    </style>
+</head>
+<body>
+    <div id="TEMPLATE-LAYOUT">
+        <!-- Header -->
+        <div class="header-image">
+            <img src="https://i.pinimg.com/736x/af/a2/6c/afa26cf9027828c1d6e3778576345cab.jpg" alt="Header image">
+        </div>
+        <!-- Marquee bienvenida -->
+        <div class="marquee-box">
+            <marquee><font color="red">｡☆✼★━★✼☆｡
+                ٩(ˊᗜˋ*)و  ¡Bienvenid@ a mi página! ٩(ˊᗜˋ*)و
+             ｡☆✼★━★✼☆｡
+            </font>
+            </marquee>
+        </div>
+        <!-- Contenido principal -->
+        <div class="content">
+            <div class="container">
+                <p>
+                    <img src="https://64.media.tumblr.com/44d4fb34d7d9a0407c8fd5520e2c3123/tumblr_p0f65nqSPG1usowd7o2_400.gifv" class="small-gif" style="float:right;">
+                    <b><font color="MediumSeaGreen">¡Qué alegría verte!</font></b> Bienvenid@ a mi rincón en la web. <br>¡Espero que te encante! (<font color="violet">✿</font>◠‿◠)
+                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia, ligula ut bibendum gravida, ipsum ipsum interdum ex, vel dictum elit lorem id sapien. Quisque euismod, turpis vel hendrerit tristique, odio lorem feugiat nisi, vel volutpat libero sapien id odio. Nulla facilisi. Duis convallis ac nisl in dignissim.</p>                
+            </div>
+        </div>
+        <!-- Tabla de actividades -->
+        <div class="table-section">
+            <div class="heading">
+                <h4>MIS ACTIVIDADES EN 2025</h4>
+            </div>
+            <div class="inner">
+                <div class="grid-container">
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">General</p>
+                        <div class="content">
+                            <div style="max-width: 200px; height: auto; position: fixed; left: 10px; bottom: 9px; z-index: 200;">
+                                <a href="https://alturl.com/p749b">
+                                    <img src="https://autism.crd.co/assets/images/gallery03/45050ba7_original.gif?v=69d6a439" alt="cat kittycat"/>
+                                </a>
+                            </div>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">Musica</p>
+                        <div class="content">
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4LzahGNNNmDE8lORD1ihKC?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">Cine</p>
+                        <div class="content">
+                            <p>Robot Salvaje</p>
+                            <p>Solo leveling</p>
+                            <p>Attack on titan: The last attack</p>     
+                        </div>
+                    </div>
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">Televisión</p>
+                        <div class="content">
+                            <!-- Aquí puedes agregar texto o imágenes -->
+                        </div>
+                    </div>
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">Libros</p>
+                        <div class="content">
+                            <!-- Aquí puedes agregar texto o imágenes -->
+                        </div>
+                    </div>
+                    <div class="grid-item" style="border: 1px solid transparent;">
+                        <p class="topic">Deportes</p>
+                        <div class="content">
+                            <!-- Aquí puedes agregar texto o imágenes -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="edit-link right-side">[<a href="/edit">edit</a>]</p>
+        </div>
+        <!-- Sección de cajas -->
+        <div class="box-container">
+            <div class="box-right">
+                <div class="container">
+                    <div class="button">
+                        Entradas
+                    </div>
+                    <p>Blogs (<a href="blogs.html" style="color: #e1b88c; text-decoration: none;">view more</a>)</p>
+                    <p>Portafolio (<a href="portafolio.html" style="color: #e1b88c; text-decoration: none;">view more</a>)</p>
+                </div>
+            </div>
+            <div class="box-right">
+                <div class="container">
+                    <div class="button">
+                        Piedra, Papel o Tijera
+                    </div>
+                    <div class="game-container">
+                        <div class="choices">
+                            <button class="choice-btn" data-choice="rock">
+                                <img src="https://64.media.tumblr.com/a27c29869128b7431c3466e90a794e16/92822f4829b322b5-5e/s250x400/0dabb24ae28cc93c06d14ee052902e26d1a11085.pnj" alt="Piedra" class="choice-img">
+                                <span class="choice-label">Piedra</span>
+                            </button>
+                            <button class="choice-btn" data-choice="paper">
+                                <img src="https://64.media.tumblr.com/16ba42c243196221d970e06d4a04a2b4/92822f4829b322b5-51/s250x400/0b7ac22e398bf4d0e612feeef8d553ca79756760.pnj" alt="Papel" class="choice-img">
+                                <span class="choice-label">Papel</span>
+                            </button>
+                            <button class="choice-btn" data-choice="scissors">
+                                <img src="https://64.media.tumblr.com/364b620b8d892617072d83f6b262b248/92822f4829b322b5-e5/s250x400/63f7858f71f86aa296baba47516bf475d07e46cb.pnj" alt="Tijera" class="choice-img">
+                                <span class="choice-label">Tijera</span>
+                            </button>
+                        </div>
+                        <div class="result" id="result">Elige una opción para jugar</div>
+                        <div class="scores">
+                            <div>Jugador: <span id="player-score">0</span></div>
+                            <div>PC: <span id="computer-score">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Marquee de despedida en el pie de página -->
+        <div class="marquee-box">
+            <marquee behavior="scroll" direction="left" scrollamount="10" style="width: 100%;" onload="this.start()">
+                <img src="https://64.media.tumblr.com/cdc910be1e4aa156e3f1a3d9710016dd/4017194b05bb9cfa-b1/s100x200/c00a79e543c3cc8650b4db49fd566e9c7a87d766.gifv" alt="GIF 1">
+                <img src="https://64.media.tumblr.com/753f419acfac9e60e6b765fd85ffd2eb/8ab04fadee517488-1b/s100x200/3dc9e51c60c4dbd89c8cf5ce9440fb78e3edf718.pnj" alt="GIF 2">
+                <img src="https://64.media.tumblr.com/8e328528392d04c3012243fdd5429ae3/e736ad8302a1def5-1a/s100x200/02c1c7cab7a2012a386835e5e4491bc15585cb46.gifv" alt="GIF 3">
+                <img src="https://64.media.tumblr.com/fce08636cfa496dba89003936e9743b8/524842475873c85d-b8/s100x200/1043ce8ff7c1debd40dddbaa858b4e4f94d83a65.pnj" alt="GIF 4">
+                <img src="https://64.media.tumblr.com/ab10240312581146b77468dd67d1b81d/524842475873c85d-db/s100x200/48f564ed4508fddec20ada186f1a3893ea47753e.gifv" alt="GIF 5">
+                <img src="https://64.media.tumblr.com/2a21558cd1ce0402b19fa1104e2c6154/142aa9f11cfff9a6-f0/s100x200/3f35352a41e4a18c909441115e02b0574e87b7d6.gifv" alt="GIF 6">
+                <img src="https://64.media.tumblr.com/ef57eb8dbba6159837628f6f1f654f84/4017194b05bb9cfa-6b/s100x200/b3f89e2bef79267344a654710370cd765caaa63a.gifv" alt="GIF 7">
+                <img src="https://64.media.tumblr.com/b90008f803e3e6a2d74eea20c4921015/8b6f19b5a3832b3c-52/s100x200/6ee0284b18a2e887f927fd3f6dcbc88d11353954.gifv" alt="GIF 8">
+                <img src="https://64.media.tumblr.com/ea799c106d8d9a2b02ddc0e8d9470187/4fd8a1e40ea0f912-4d/s100x200/9ec203864b506ccd7bef427b277d7b98922f6877.gifv" alt="GIF 9">
+                <img src="https://64.media.tumblr.com/74926e4809c044087f9983ad170029e7/389edd42d3c2fbdf-04/s100x200/5bb2609405f762794f9bce403bfeb036c7522ac6.gifv" alt="GIF 10">
+                <img src="https://64.media.tumblr.com/db7d5d99ac5bb1cc16881cb3722c755d/56a5919cdc260a12-97/s100x200/7f8fa0502214bf98cb2d307b3026f6cb13dcfaed.pnj" alt="GIF 11">
+                <img src="https://64.media.tumblr.com/63e13bc8036314f0c57dcf0adb1dfab5/5f1133bdc4e96632-65/s100x200/0a2124e8e738e1efc5b53e79098b98dfbbd8a59a.gifv" alt="GIF 12">
+                <img src="https://64.media.tumblr.com/39764cf022091fa0b452fb66c46e4416/ddf68c11f35e40dd-12/s100x200/9ab6c513192e1dc5dd7d1387f06c8a6268f86f14.pnj" alt="GIF 13">
+                <img src="https://64.media.tumblr.com/d46cd7650e1bc15edaabfe446d488ac3/562bc653002dd72e-a9/s250x400/b30a7c5696dafba0ceea132b272c01eba101b55f.gifv" alt="GIF 14">
+                <img src="https://64.media.tumblr.com/3ac7059424bb45be291ba2ca2c3408ea/562bc653002dd72e-c1/s250x400/08eaff8070f38a85c02f1eb689a795bfac249a8b.gifv" alt="GIF 15">
+                <img src="https://64.media.tumblr.com/5a959addb826b67b09c3143fd36496d6/2789c352317c8fac-df/s100x200/160f2ec427a326a8f542de8415923b869e9ebbbc.gifv" alt="GIF 16">
+                <img src="https://64.media.tumblr.com/f322d501fd7adca2f9d9f3fa02f235ea/89749997f66a3a49-31/s250x400/0c07082818de72b08776f1498857c7747f864ac3.gifv" alt="GIF 17">
+                <img src="https://64.media.tumblr.com/d6092f6ea1523f18d8494165c05f6b01/d7f07797e92c200d-d9/s100x200/61490eab8d9768863c84f5666a6bccc282ea7917.gifv" alt="GIF 18">
+                <img src="https://64.media.tumblr.com/7a56f080bf8571547015ddec0c2dd393/acd5f42c3f4a5236-18/s100x200/eb96141fb5e97264029b5065ff1857c998d9d693.gifv" alt="GIF 19">
+                <img src="https://64.media.tumblr.com/84524e59624acdfb198c6c509a9df9b0/f1413ef45abf2485-9e/s100x200/04fd844727b2f6d4f37cc9986a0cf15d7bb519d7.gifv" alt="GIF 20">
+                <img src="https://64.media.tumblr.com/120b812cbd7120b9a3099257b5e80324/08dc254342852b38-d0/s100x200/dc1781c49bcdd902941a3d6f8000cebfd073e848.gifv" alt="GIF 21">
+                <img src="https://64.media.tumblr.com/ea0d38b5644f3dbdfc869dde4aa56593/14df2b8e0ccc2214-c1/s100x200/91a33f0273ab221ea324f7bd4dda68d768ee69b4.gifv" alt="GIF 22">
+                <img src="https://64.media.tumblr.com/db7899a0cfc15e719c17ffa97e769371/7dd01211cc629305-06/s100x200/55de77a535492212375e2cf6005ce621a4561854.pnj" alt="GIF 23">
+                <img src="https://64.media.tumblr.com/5d8b780cf00c6e248220d6dea032d854/37c6b674bdb874ca-10/s100x200/9fc6491ce06ca574f21c0ddfb7624812a32eb05e.webp" alt="GIF 24">
+                <img src="https://64.media.tumblr.com/03d38ec83ff35832cb6c56edea109f9d/92fe38413966101b-41/s100x200/c7033afb1fdc67d64dee7d547dd0a426c3df6747.gifv" alt="GIF 25">
+                <img src="https://64.media.tumblr.com/8bff7a22b3c885e77c8429214520b420/a69cd2c92ea385d3-90/s100x200/508eb2549264989e7d11730fe9d0de4fc113c1ae.gifv" alt="GIF 26">
+                <img src="https://64.media.tumblr.com/460ec75fc2c41b61d1a8aec188ee6a91/9569ebf9d45e6770-18/s100x200/f5aee227be22dffff1b0f11b72db9818f740acbc.gifv" alt="GIF 27">
+                <img src="https://64.media.tumblr.com/6262e01eb66814536821eb7a544d5a9f/9569ebf9d45e6770-3c/s100x200/93169a368b9336af4ea3fcf3f3929970a995ad8c.gifv" alt="GIF 28">
+                <img src="https://64.media.tumblr.com/ce574369e384f6718644a99744043c79/acf30207513d4a6d-9d/s100x200/b29d11c4144e488582376b820e962f6c46c049d2.gifv" alt="GIF 29">
+                <img src="https://64.media.tumblr.com/763f8375ce9268671d3265f0d13636b1/acf30207513d4a6d-51/s100x200/1477c28871b0457494968011900335822f854620.pnj" alt="GIF 30">
+            </marquee>
+        </div>
+        <!-- Texto centrado debajo del marquee-box -->
+        <div class="footer-text">
+            <p><font color="#8a5d39">Visualización óptima en escritorio</font></p>
+        </div>
+    </div>
+    <!-- Chatbox en esquina inferior derecha -->
+    <div id="cbox">
+        <div id="cboxtitle">chat</div>
+        <div id="cboxdesc">
+            Deja tu mensaje
+        </div>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3546703&boxtag=cM2SlZ" width="190" height="300" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
+    </div>
+     <script>
+        // JavaScript para el juego
+        const choiceBtns = document.querySelectorAll('.choice-btn');
+        const resultDisplay = document.getElementById('result');
+        const playerScoreDisplay = document.getElementById('player-score');
+        const computerScoreDisplay = document.getElementById('computer-score');
+        
+        let playerScore = 0;
+        let computerScore = 0;
+        
+        choiceBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                const playerChoice = button.getAttribute('data-choice');
+                const computerChoice = getComputerChoice();
+                const winner = getWinner(playerChoice, computerChoice);
+                displayResult(playerChoice, computerChoice, winner);
+                updateScores();
+            });
+        });
+        
+        function getComputerChoice() {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomIndex = Math.floor(Math.random() * 3);
+            return choices[randomIndex];
+        }
+        
+        function getWinner(player, computer) {
+            if (player === computer) return 'draw';
+            
+            if (
+                (player === 'rock' && computer === 'scissors') ||
+                (player === 'paper' && computer === 'rock') ||
+                (player === 'scissors' && computer === 'paper')
+            ) {
+                playerScore++;
+                return 'player';
+            } else {
+                computerScore++;
+                return 'computer';
+            }
+        }
+        
+        function displayResult(player, computer, winner) {
+            const choices = {
+                rock: 'Piedra',
+                paper: 'Papel',
+                scissors: 'Tijera'
+            };
+            
+            let resultText = `Tú: ${choices[player]} vs PC: ${choices[computer]}. `;
+            
+            if (winner === 'draw') {
+                resultText += "¡Empate!";
+            } else if (winner === 'player') {
+                resultText += "¡Ganaste!";
+            } else {
+                resultText += "¡Perdiste!";
+            }
+            
+            resultDisplay.textContent = resultText;
+        }
+        
+        function updateScores() {
+            playerScoreDisplay.textContent = playerScore;
+            computerScoreDisplay.textContent = computerScore;
+        }
+    </script>
+</body>
+</html>
