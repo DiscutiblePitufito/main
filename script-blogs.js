@@ -437,24 +437,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function deletePost() {
         const id = postId ? postId.value : '';
-
-
-
-
-
-
-
-
-
-
-
-
-
-});    }        }                });                    alert("Error al eliminar el post");                    console.error("Error eliminando post:", error);                .catch(error => {                })                    if(editorWindow) editorWindow.style.display = 'none';                    console.log("Post eliminado");                .then(() => {            db.collection('posts').doc(id).delete()        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
+        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
             db.collection('posts').doc(id).delete()
                 .then(() => {
                     console.log("Post eliminado");
-                    if(editorWindow) editorWindow.style.display = 'none';
+                    if (editorWindow) editorWindow.style.display = 'none';
                 })
                 .catch(error => {
                     console.error("Error eliminando post:", error);
