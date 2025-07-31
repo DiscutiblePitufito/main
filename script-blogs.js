@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuración de administrador
+    // --- Firebase Configuración e Inicialización ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyD9nY7ThYNay-B7HBA9o80nom4JAbbJL2E",
+        authDomain: "blog-da6fd.firebaseapp.com",
+        projectId: "blog-da6fd",
+        storageBucket: "blog-da6fd.firebasestorage.app",
+        messagingSenderId: "927265338035",
+        appId: "1:927265338035:web:53a52854759a8dd3b576c6"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // --- Configuración de administrador y variables globales ---
     const ADMIN_USERNAME = "admin";
     const ADMIN_PASSWORD = "admin123";
     let currentUser = null;
@@ -27,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
-    // Cargar posts desde localStorage o usar los iniciales
+    // --- Cargar posts desde localStorage o usar los iniciales ---
     let posts = loadPostsFromStorage();
     if (!posts) {
         posts = initialPosts;
         savePostsToStorage(posts);
     }
 
-    // Elementos del DOM
+    // --- Elementos del DOM ---
     const postsContainer = document.getElementById('posts-container');
     const loginBtn = document.getElementById('login-btn');
     const loginWindow = document.getElementById('login-window');
@@ -48,15 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const deletePostBtn = document.getElementById('delete-post');
     const postId = document.getElementById('post-id');
 
-    // Ocultar botón de nuevo post si no hay usuario
+    // --- Estado inicial de la interfaz ---
     if (!currentUser) {
         newPostBtn.style.display = 'none';
     }
-
-    // Mostrar posts al cargar
     renderPosts();
 
-    // Event listeners
+    // --- Event listeners principales ---
     loginBtn.addEventListener('click', () => {
         if (currentUser === ADMIN_USERNAME) {
             logout();
@@ -75,12 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
     doLoginBtn.addEventListener('click', function() {
         const username = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
-        
         if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
             currentUser = ADMIN_USERNAME;
             loginWindow.style.display = 'none';
             loginBtn.textContent = 'Logout Admin';
-            newPostBtn.style.display = 'block'; 
+            newPostBtn.style.display = 'block';
             renderPosts();
             alert('Sesión iniciada como administrador');
         } else {
@@ -88,25 +97,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Event listeners para pestañas
+    // --- Event listeners para pestañas del editor ---
     document.querySelectorAll('.xp-tab-button').forEach(button => {
         button.addEventListener('click', function() {
-            // Cambiar pestañas activas
-            document.querySelectorAll('.xp-tab-button').forEach(btn => 
+            document.querySelectorAll('.xp-tab-button').forEach(btn =>
                 btn.classList.remove('active'));
-            document.querySelectorAll('.xp-tab-content').forEach(content => 
+            document.querySelectorAll('.xp-tab-content').forEach(content =>
                 content.classList.remove('active'));
-            
             this.classList.add('active');
             currentTab = this.getAttribute('data-tab');
             document.getElementById(`${currentTab}-tab`).classList.add('active');
-            
-            // Sincronizar valores entre pestañas
             syncTabs();
         });
     });
 
-    // Funciones
+    // --- Funciones principales ---
     function logout() {
         currentUser = null;
         loginBtn.textContent = 'Login Admin';
@@ -123,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             document.getElementById('post-title').value = titleHtml.value;
         }
-        
         // Sincronizar autor
         const authorVisual = document.getElementById('post-author').value;
         const authorHtml = document.getElementById('post-author-html');
@@ -132,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             document.getElementById('post-author').value = authorHtml.value;
         }
-        
         // Sincronizar imagen
         const imageVisual = document.getElementById('post-image').value;
         const imageHtml = document.getElementById('post-image-html');
@@ -145,24 +148,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderPosts() {
         postsContainer.innerHTML = '';
-        // No modificar posts aquí, solo mostrar
         const sortedPosts = [...posts].sort((a, b) => b.date - a.date);
         sortedPosts.forEach(post => {
             const postElement = document.createElement('div');
             postElement.className = 'xp-post';
-            
-            const editButton = currentUser === ADMIN_USERNAME 
+            const editButton = currentUser === ADMIN_USERNAME
                 ? `<button class="xp-button edit-post" data-id="${post.id}">Editar</button>`
                 : '';
-            
-            // Mostrar contenido según si es HTML o no
             let displayContent;
             if (post.isHtml) {
                 displayContent = post.content;
             } else {
                 displayContent = post.content.replace(/\n/g, '<br>');
             }
-
             postElement.innerHTML = `
                 <div class="xp-post-header">
                     <div>
@@ -183,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             postsContainer.appendChild(postElement);
         });
-
-        // Agregar event listeners a los botones de editar
         if (currentUser === ADMIN_USERNAME) {
             document.querySelectorAll('.edit-post').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -247,11 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('post-author-html').value = post.author;
             document.getElementById('post-image').value = post.imageUrl || '';
             document.getElementById('post-image-html').value = post.imageUrl || '';
-            
-            // Establecer alineación de imagen
             const alignment = post.imageAlignment || 'left';
             document.querySelector(`input[name="image-alignment"][value="${alignment}"]`).checked = true;
-            
             if (post.isHtml) {
                 document.getElementById('post-html').value = post.content;
                 document.querySelector('[data-tab="html"]').click();
@@ -259,7 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('post-content').value = post.content;
                 document.querySelector('[data-tab="visual"]').click();
             }
-            
             deletePostBtn.style.display = 'inline-block';
             editorWindow.style.display = 'block';
         }
@@ -269,10 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = postId.value ? parseInt(postId.value) : null;
         let title, author, imageUrl, content;
         let isHtml = false;
-        
-        // Obtener alineación de imagen
         const imageAlignment = document.querySelector('input[name="image-alignment"]:checked').value;
-        
         if (currentTab === 'html') {
             title = document.getElementById('post-title-html').value.trim();
             author = document.getElementById('post-author-html').value.trim();
@@ -286,14 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
             content = document.getElementById('post-content').value.trim();
             isHtml = false;
         }
-        
         if (!title || !author) {
             alert('Por favor, completa al menos título y autor.');
             return;
         }
-        
         if (id) {
-            // Editar post existente
             const index = posts.findIndex(p => p.id === id);
             if (index !== -1) {
                 posts[index] = {
@@ -308,7 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             }
         } else {
-            // Crear nuevo post
             const newId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
             posts.push({
                 id: newId,
@@ -321,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 date: new Date()
             });
         }
-        
         savePostsToStorage(posts);
         renderPosts();
         editorWindow.style.display = 'none';
