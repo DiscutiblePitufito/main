@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- Estado inicial de la interfaz ---
-    if (!currentUser) {
+    if (!currentUser && newPostBtn) {
         newPostBtn.style.display = 'none';
     }
 
@@ -78,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
             renderPosts();
         }, error => {
             console.error("Error cargando posts:", error);
-            postsContainer.innerHTML = '<div class="loading">Error cargando posts. Recargue la página.</div>';
+            if(postsContainer) {
+                postsContainer.innerHTML = '<div class="loading">Error cargando posts. Recargue la página.</div>';
+            }
         });
     }
     
@@ -86,134 +88,158 @@ document.addEventListener('DOMContentLoaded', function() {
     subscribeToPosts();
 
     // --- Event listeners principales ---
-    loginBtn.addEventListener('click', () => {
-        console.log("Botón Login clickeado");
-        if (currentUser === ADMIN_USERNAME) {
-            logout();
-        } else {
-            loginWindow.style.display = 'block';
-            // Enfocar el campo de usuario al abrir
-            loginUsername.focus();
-        }
-    });
+    if(loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            console.log("Botón Login clickeado");
+            if (currentUser === ADMIN_USERNAME) {
+                logout();
+            } else {
+                loginWindow.style.display = 'block';
+                // Enfocar el campo de usuario al abrir
+                if(loginUsername) loginUsername.focus();
+            }
+        });
+    }
 
-    closeLoginBtn.addEventListener('click', () => {
-        console.log("Cerrando ventana de login");
-        loginWindow.style.display = 'none';
-    });
-    
-    closeEditorBtn.addEventListener('click', () => {
-        console.log("Cerrando editor");
-        editorWindow.style.display = 'none';
-    });
-    
-    newPostBtn.addEventListener('click', openNewPostEditor);
-    savePostBtn.addEventListener('click', savePost);
-    cancelPostBtn.addEventListener('click', () => {
-        console.log("Cancelando edición");
-        editorWindow.style.display = 'none';
-    });
-    
-    deletePostBtn.addEventListener('click', deletePost);
-
-    doLoginBtn.addEventListener('click', function() {
-        console.log("Intento de login");
-        const username = loginUsername.value;
-        const password = loginPassword.value;
-        
-        console.log(`Credenciales: ${username}/${password}`);
-        
-        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-            currentUser = ADMIN_USERNAME;
+    if(closeLoginBtn) {
+        closeLoginBtn.addEventListener('click', () => {
+            console.log("Cerrando ventana de login");
             loginWindow.style.display = 'none';
-            loginBtn.textContent = 'Logout Admin';
-            newPostBtn.style.display = 'block'; 
-            renderPosts();
-            alert('Sesión iniciada como administrador');
+        });
+    }
+    
+    if(closeEditorBtn) {
+        closeEditorBtn.addEventListener('click', () => {
+            console.log("Cerrando editor");
+            editorWindow.style.display = 'none';
+        });
+    }
+    
+    if(newPostBtn) {
+        newPostBtn.addEventListener('click', openNewPostEditor);
+    }
+
+    if(savePostBtn) {
+        savePostBtn.addEventListener('click', savePost);
+    }
+
+    if(cancelPostBtn) {
+        cancelPostBtn.addEventListener('click', () => {
+            console.log("Cancelando edición");
+            editorWindow.style.display = 'none';
+        });
+    }
+    
+    if(deletePostBtn) {
+        deletePostBtn.addEventListener('click', deletePost);
+    }
+
+    if(doLoginBtn) {
+        doLoginBtn.addEventListener('click', function() {
+            console.log("Intento de login");
+            const username = loginUsername ? loginUsername.value : '';
+            const password = loginPassword ? loginPassword.value : '';
             
-            // Limpiar campos de login
-            loginUsername.value = '';
-            loginPassword.value = '';
-        } else {
-            alert('Credenciales incorrectas');
-            // Resaltar campos incorrectos
-            loginUsername.style.borderColor = 'red';
-            loginPassword.style.borderColor = 'red';
-            setTimeout(() => {
-                loginUsername.style.borderColor = '';
-                loginPassword.style.borderColor = '';
-            }, 2000);
-        }
-    });
+            console.log(`Credenciales: ${username}/${password}`);
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                currentUser = ADMIN_USERNAME;
+                if(loginWindow) loginWindow.style.display = 'none';
+                if(loginBtn) loginBtn.textContent = 'Logout Admin';
+                if(newPostBtn) newPostBtn.style.display = 'block'; 
+                renderPosts();
+                alert('Sesión iniciada como administrador');
+                
+                // Limpiar campos de login
+                if(loginUsername) loginUsername.value = '';
+                if(loginPassword) loginPassword.value = '';
+            } else {
+                alert('Credenciales incorrectas');
+                // Resaltar campos incorrectos
+                if(loginUsername) loginUsername.style.borderColor = 'red';
+                if(loginPassword) loginPassword.style.borderColor = 'red';
+                setTimeout(() => {
+                    if(loginUsername) loginUsername.style.borderColor = '';
+                    if(loginPassword) loginPassword.style.borderColor = '';
+                }, 2000);
+            }
+        });
+    }
 
     // Permitir cerrar ventanas con ESC
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-            if (loginWindow.style.display === 'block') {
+            if (loginWindow && loginWindow.style.display === 'block') {
                 loginWindow.style.display = 'none';
             }
-            if (editorWindow.style.display === 'block') {
+            if (editorWindow && editorWindow.style.display === 'block') {
                 editorWindow.style.display = 'none';
             }
         }
     });
 
     // --- Event listeners para pestañas del editor ---
-    document.querySelectorAll('.xp-tab-button').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.xp-tab-button').forEach(btn => 
-                btn.classList.remove('active'));
-            document.querySelectorAll('.xp-tab-content').forEach(content => 
-                content.classList.remove('active'));
-            
-            this.classList.add('active');
-            currentTab = this.getAttribute('data-tab');
-            document.getElementById(`${currentTab}-tab`).classList.add('active');
-            
-            syncTabs();
+    const tabButtons = document.querySelectorAll('.xp-tab-button');
+    if(tabButtons.length > 0) {
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.xp-tab-button').forEach(btn => 
+                    btn.classList.remove('active'));
+                document.querySelectorAll('.xp-tab-content').forEach(content => 
+                    content.classList.remove('active'));
+                
+                this.classList.add('active');
+                currentTab = this.getAttribute('data-tab');
+                const tabContent = document.getElementById(`${currentTab}-tab`);
+                if(tabContent) tabContent.classList.add('active');
+                
+                syncTabs();
+            });
         });
-    });
+    }
 
     // --- Funciones principales ---
     function logout() {
         console.log("Cerrando sesión");
         currentUser = null;
-        loginBtn.textContent = 'Login Admin';
-        newPostBtn.style.display = 'none';
+        if(loginBtn) loginBtn.textContent = 'Login Admin';
+        if(newPostBtn) newPostBtn.style.display = 'none';
         renderPosts();
     }
 
     function syncTabs() {
         // Sincronizar título
-        const titleVisual = document.getElementById('post-title').value;
+        const titleVisual = document.getElementById('post-title');
         const titleHtml = document.getElementById('post-title-html');
         if (currentTab === 'visual') {
-            titleHtml.value = titleVisual;
+            if(titleHtml && titleVisual) titleHtml.value = titleVisual.value;
         } else {
-            document.getElementById('post-title').value = titleHtml.value;
+            if(titleVisual && titleHtml) titleVisual.value = titleHtml.value;
         }
         
         // Sincronizar autor
-        const authorVisual = document.getElementById('post-author').value;
+        const authorVisual = document.getElementById('post-author');
         const authorHtml = document.getElementById('post-author-html');
         if (currentTab === 'visual') {
-            authorHtml.value = authorVisual;
+            if(authorHtml && authorVisual) authorHtml.value = authorVisual.value;
         } else {
-            document.getElementById('post-author').value = authorHtml.value;
+            if(authorVisual && authorHtml) authorVisual.value = authorHtml.value;
         }
         
         // Sincronizar imagen
-        const imageVisual = document.getElementById('post-image').value;
+        const imageVisual = document.getElementById('post-image');
         const imageHtml = document.getElementById('post-image-html');
         if (currentTab === 'visual') {
-            imageHtml.value = imageVisual;
+            if(imageHtml && imageVisual) imageHtml.value = imageVisual.value;
         } else {
-            document.getElementById('post-image').value = imageHtml.value;
+            if(imageVisual && imageHtml) imageVisual.value = imageHtml.value;
         }
     }
 
     function renderPosts() {
         console.log("Renderizando posts...");
+        if(!postsContainer) return;
+        
         postsContainer.innerHTML = '';
         
         if (posts.length === 0) {
@@ -240,9 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     .replace(/\n/g, '<br>');
             }
 
-            if (currentUser === ADMIN_USERNAME) {
+            if (currentUser === ADMIN_USERNAME && newPostBtn) {
                 newPostBtn.style.display = 'block';
-            } else {
+            } else if(newPostBtn) {
                 newPostBtn.style.display = 'none';
             }
             
@@ -296,6 +322,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openNewPostEditor() {
+        if(!postId) return;
+        
         postId.value = '';
         document.getElementById('post-title').value = '';
         document.getElementById('post-title-html').value = '';
@@ -306,15 +334,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('post-content').value = '';
         document.getElementById('post-html').value = '';
         document.querySelector('input[name="image-alignment"][value="left"]').checked = true;
-        deletePostBtn.style.display = 'none';
-        document.querySelector('[data-tab="visual"]').click();
-        editorWindow.style.display = 'block';
+        if(deletePostBtn) deletePostBtn.style.display = 'none';
+                
+        // Activar pestaña visual
+        const visualTabButton = document.querySelector('[data-tab="visual"]');
+        if(visualTabButton) visualTabButton.click();
+                
+        if(editorWindow) editorWindow.style.display = 'block';
     }
 
     function openEditPostEditor(id) {
         const post = posts.find(p => p.id === id);
         if (post) {
-            postId.value = post.id;
+            if(postId) postId.value = post.id;
             document.getElementById('post-title').value = post.title;
             document.getElementById('post-title-html').value = post.title;
             document.getElementById('post-author').value = post.author;
@@ -323,39 +355,43 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('post-image-html').value = post.imageUrl || '';
             
             const alignment = post.imageAlignment || 'left';
-            document.querySelector(`input[name="image-alignment"][value="${alignment}"]`).checked = true;
+            const radio = document.querySelector(`input[name="image-alignment"][value="${alignment}"]`);
+            if(radio) radio.checked = true;
             
             if (post.isHtml) {
                 document.getElementById('post-html').value = post.content;
-                document.querySelector('[data-tab="html"]').click();
+                const htmlTabButton = document.querySelector('[data-tab="html"]');
+                if(htmlTabButton) htmlTabButton.click();
             } else {
                 document.getElementById('post-content').value = post.content;
-                document.querySelector('[data-tab="visual"]').click();
+                const visualTabButton = document.querySelector('[data-tab="visual"]');
+                if(visualTabButton) visualTabButton.click();
             }
             
-            deletePostBtn.style.display = 'inline-block';
-            editorWindow.style.display = 'block';
+            if(deletePostBtn) deletePostBtn.style.display = 'inline-block';
+            if(editorWindow) editorWindow.style.display = 'block';
         }
     }
 
     function savePost() {
-        const id = postId.value;
+        const id = postId ? postId.value : '';
         let title, author, imageUrl, content;
         let isHtml = false;
         
-        const imageAlignment = document.querySelector('input[name="image-alignment"]:checked').value;
+        const imageAlignment = document.querySelector('input[name="image-alignment"]:checked');
+        const alignmentValue = imageAlignment ? imageAlignment.value : 'left';
         
         if (currentTab === 'html') {
-            title = document.getElementById('post-title-html').value.trim();
-            author = document.getElementById('post-author-html').value.trim();
-            imageUrl = document.getElementById('post-image-html').value.trim();
-            content = document.getElementById('post-html').value.trim();
+            title = document.getElementById('post-title-html') ? document.getElementById('post-title-html').value.trim() : '';
+            author = document.getElementById('post-author-html') ? document.getElementById('post-author-html').value.trim() : '';
+            imageUrl = document.getElementById('post-image-html') ? document.getElementById('post-image-html').value.trim() : '';
+            content = document.getElementById('post-html') ? document.getElementById('post-html').value.trim() : '';
             isHtml = true;
         } else {
-            title = document.getElementById('post-title').value.trim();
-            author = document.getElementById('post-author').value.trim();
-            imageUrl = document.getElementById('post-image').value.trim();
-            content = document.getElementById('post-content').value.trim();
+            title = document.getElementById('post-title') ? document.getElementById('post-title').value.trim() : '';
+            author = document.getElementById('post-author') ? document.getElementById('post-author').value.trim() : '';
+            imageUrl = document.getElementById('post-image') ? document.getElementById('post-image').value.trim() : '';
+            content = document.getElementById('post-content') ? document.getElementById('post-content').value.trim() : '';
             isHtml = false;
         }
         
@@ -369,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
             author,
             content,
             imageUrl,
-            imageAlignment,
+            imageAlignment: alignmentValue,
             isHtml,
             date: new Date()
         };
@@ -379,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
             db.collection('posts').doc(id).update(postData)
                 .then(() => {
                     console.log("Post actualizado");
-                    editorWindow.style.display = 'none';
+                    if(editorWindow) editorWindow.style.display = 'none';
                 })
                 .catch(error => {
                     console.error("Error actualizando post:", error);
@@ -390,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
             db.collection('posts').add(postData)
                 .then(() => {
                     console.log("Post creado");
-                    editorWindow.style.display = 'none';
+                    if(editorWindow) editorWindow.style.display = 'none';
                 })
                 .catch(error => {
                     console.error("Error creando post:", error);
@@ -400,12 +436,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function deletePost() {
-        const id = postId.value;
-        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
+        const id = postId ? postId.value : '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+});    }        }                });                    alert("Error al eliminar el post");                    console.error("Error eliminando post:", error);                .catch(error => {                })                    if(editorWindow) editorWindow.style.display = 'none';                    console.log("Post eliminado");                .then(() => {            db.collection('posts').doc(id).delete()        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
             db.collection('posts').doc(id).delete()
                 .then(() => {
                     console.log("Post eliminado");
-                    editorWindow.style.display = 'none';
+                    if(editorWindow) editorWindow.style.display = 'none';
                 })
                 .catch(error => {
                     console.error("Error eliminando post:", error);

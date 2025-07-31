@@ -7,50 +7,65 @@
     <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/29/f5/9c/29f59c17cd7116756f80837a114a5d72.jpg">
     <link rel="stylesheet" href="style-blogs.css">
     <style>
-        @font-face {
-            font-family: 'MS UI Gothic';
-            src: url('https://cdn.jsdelivr.net/npm/japanese-fonts@1.0.0/source-han-sans-japanese/fonts/SourceHanSansJP-Regular.otf') format('opentype');
+        .home-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 300;
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+        .home-button a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+        #home-img {
+            width: 200%;
+            height: 200%;
+            object-fit: contain;
+            border: 1px transparent;
+            box-shadow: 2px 2px 4px transparent;
+            filter: sepia(5%);
+            transition: transform 0.3s ease;
+        }
+        .home-button span {
+            display: none;
+            color: black;
+            text-shadow: 1px 1px 2px white;
+            font-family: 'MS UI Gothic', Tahoma, sans-serif;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+        .home-button:hover {
+            transform: scale(1.1);
+        }
+        .xp-navbar {
+            z-index: 201;
+            position: relative;
+        }
+        .loading {
+            text-align: center;
+            color: #888;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Botón de inicio flotante -->
-    <div style="
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 200;
-        width: 40px;
-        height: 40px;
-        transition: transform 0.3s ease;
-    " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-        <a href="index.html" style="display: block; width: 100%; height: 100%;">
+    <!-- Botón de inicio flotante con z-index corregido -->
+    <div class="home-button">
+        <a href="index.html">
             <img src="https://64.media.tumblr.com/f2b7319b7b8e1926f3f4846796648d99/92822f4829b322b5-3a/s640x960/572fc7435ff801240fb4167ae9aaba50e7e82765.pnj" 
                 alt="Inicio" 
-                style="
-                    width: 200%;
-                    height: 200%;
-                    object-fit: contain;
-                    border: 1px transparent;
-                    box-shadow: 2px 2px 4px transparent;
-                    filter: sepia(5%);
-                    transition: transform 0.3s ease;
-                " 
-                onmouseover="this.nextElementSibling.style.display='block'; this.style.transform='scale(1.1)'"
-                onmouseout="this.nextElementSibling.style.display='none'; this.style.transform='scale(1)'">
-            <span style="
-                display: none;
-                color: black;
-                text-shadow: 1px 1px 2px white;
-                font-family: 'MS UI Gothic', Tahoma, sans-serif;
-                font-size: 12px;
-                margin-top: 3px;
-            ">Inicio</span>
+                id="home-img">
+            <span>Inicio</span>
         </a>
     </div>
 
     <div class="blog-container">
-        <!-- Barra de navegación -->
+        <!-- Barra de navegación con mayor z-index -->
         <div class="xp-navbar">
             <button class="xp-button" id="new-post-btn" style="display: none;">Nuevo Post</button>
             <button class="xp-button" id="login-btn">Login Admin</button>
@@ -58,7 +73,7 @@
 
         <!-- Contenedor principal de posts -->
         <div class="xp-posts-container" id="posts-container">
-            <!-- Posts se cargarán aquí -->
+            <div class="loading">Cargando posts...</div>
         </div>
 
         <!-- Ventana de login -->
@@ -72,11 +87,11 @@
             <div class="xp-window-body">
                 <div class="xp-field-row">
                     <label for="login-username">Usuario:</label>
-                    <input type="text" id="login-username" class="xp-input">
+                    <input type="text" id="login-username" class="xp-input" autocomplete="off">
                 </div>
                 <div class="xp-field-row">
                     <label for="login-password">Contraseña:</label>
-                    <input type="password" id="login-password" class="xp-input">
+                    <input type="password" id="login-password" class="xp-input" autocomplete="off">
                 </div>
                 <div class="xp-editor-buttons">
                     <button id="do-login" class="xp-button">Ingresar</button>
@@ -162,6 +177,9 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="script-blogs.js"></script>
 </body>
 </html>
