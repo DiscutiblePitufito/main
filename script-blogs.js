@@ -16,35 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const ADMIN_PASSWORD = "admin123";
     let currentUser = null;
     let currentTab = 'visual';
-    const initialPosts = [
-        {
-            id: 1,
-            title: "Bienvenido al Blog",
-            author: "Admin",
-            content: "Este es un blog con la estética clásica de Windows XP.",
-            imageUrl: "",
-            imageAlignment: "left",
-            isHtml: false,
-            date: new Date()
-        },
-        {
-            id: 2,
-            title: "Ejemplo con imagen centrada",
-            author: "Admin",
-            content: "Prueba 1",
-            imageUrl: "https://i.pinimg.com/originals/2d/73/fd/2d73fd1656f8c7981fbd166308eb92a3.gif",
-            imageAlignment: "center",
-            isHtml: false,
-            date: new Date(Date.now() - 86400000)
-        }
-    ];
-
-    // --- Cargar posts desde localStorage o usar los iniciales ---
-    let posts = loadPostsFromStorage();
-    if (!posts) {
-        posts = initialPosts;
-        savePostsToStorage(posts);
-    }
+    let posts = [];
+    let unsubscribe = null;
 
     // --- Elementos del DOM ---
     const postsContainer = document.getElementById('posts-container');
@@ -64,7 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!currentUser) {
         newPostBtn.style.display = 'none';
     }
-    renderPosts();
+
+    // --- Suscripción a Firestore para obtener posts en tiempo real ---
+    function subscribeToPosts() {
+        unsubscribe = db.collection('posts').orderBy('date', 'desc').onSnapshot(snapshot => {
+            posts = [];
+            snapshot.forEach(doc => {
+                const post = doc.data();
+                post.id = doc.id;
+                post.date = post.date.toDate();
+                posts.push(post);
+            });
+            renderPosts();
+        }, error => {
+            console.error("Error cargando posts:", error);
+            postsContainer.innerHTML = '<div class="loading">Error cargando posts. Recargue la página.</div>';
+        });
+    }
+    subscribeToPosts();
 
     // --- Event listeners principales ---
     loginBtn.addEventListener('click', () => {
@@ -148,8 +138,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderPosts() {
         postsContainer.innerHTML = '';
-        const sortedPosts = [...posts].sort((a, b) => b.date - a.date);
-        sortedPosts.forEach(post => {
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<div class="loading">No hay posts aún. ¡Sé el primero en crear uno!</div>';
+            return;
+        }
+        posts.forEach(post => {
             const postElement = document.createElement('div');
             postElement.className = 'xp-post';
             const editButton = currentUser === ADMIN_USERNAME
@@ -160,6 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayContent = post.content;
             } else {
                 displayContent = post.content.replace(/\n/g, '<br>');
+            }
+            // Mostrar/ocultar botón de nuevo post según usuario
+            if (currentUser === ADMIN_USERNAME) {
+                newPostBtn.style.display = 'block';
+            } else {
+                newPostBtn.style.display = 'none';
             }
             postElement.innerHTML = `
                 <div class="xp-post-header">
@@ -181,10 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             postsContainer.appendChild(postElement);
         });
+        // Event listeners para editar posts
         if (currentUser === ADMIN_USERNAME) {
             document.querySelectorAll('.edit-post').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const id = parseInt(this.getAttribute('data-id'));
+                    const id = this.getAttribute('data-id');
                     openEditPostEditor(id);
                 });
             });
@@ -200,21 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hour: '2-digit',
             minute: '2-digit'
         });
-    }
-
-    function loadPostsFromStorage() {
-        const stored = localStorage.getItem('blogPosts');
-        if (stored) {
-            return JSON.parse(stored).map(post => ({
-                ...post,
-                date: new Date(post.date)
-            }));
-        }
-        return null;
-    }
-
-    function savePostsToStorage(posts) {
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
     }
 
     function openNewPostEditor() {
@@ -258,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function savePost() {
-        const id = postId.value ? parseInt(postId.value) : null;
+        const id = postId.value;
         let title, author, imageUrl, content;
         let isHtml = false;
         const imageAlignment = document.querySelector('input[name="image-alignment"]:checked').value;
@@ -279,45 +264,52 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Por favor, completa al menos título y autor.');
             return;
         }
+        const postData = {
+            title,
+            author,
+            content,
+            imageUrl,
+            imageAlignment,
+            isHtml,
+            date: new Date()
+        };
         if (id) {
-            const index = posts.findIndex(p => p.id === id);
-            if (index !== -1) {
-                posts[index] = {
-                    ...posts[index],
-                    title,
-                    author,
-                    content,
-                    imageUrl,
-                    imageAlignment,
-                    isHtml,
-                    date: new Date()
-                };
-            }
+            // Actualizar post existente
+            db.collection('posts').doc(id).update(postData)
+                .then(() => {
+                    console.log("Post actualizado");
+                    editorWindow.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error("Error actualizando post:", error);
+                    alert("Error al actualizar el post");
+                });
         } else {
-            const newId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
-            posts.push({
-                id: newId,
-                title,
-                author,
-                content,
-                imageUrl,
-                imageAlignment,
-                isHtml,
-                date: new Date()
-            });
+            // Crear nuevo post
+            db.collection('posts').add(postData)
+                .then(() => {
+                    console.log("Post creado");
+                    editorWindow.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error("Error creando post:", error);
+                    alert("Error al crear el post");
+                });
         }
-        savePostsToStorage(posts);
-        renderPosts();
-        editorWindow.style.display = 'none';
     }
 
     function deletePost() {
-        const id = parseInt(postId.value);
+        const id = postId.value;
         if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
-            posts = posts.filter(p => p.id !== id);
-            savePostsToStorage(posts);
-            renderPosts();
-            editorWindow.style.display = 'none';
+            db.collection('posts').doc(id).delete()
+                .then(() => {
+                    console.log("Post eliminado");
+                    editorWindow.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error("Error eliminando post:", error);
+                    alert("Error al eliminar el post");
+                });
         }
     }
 });
